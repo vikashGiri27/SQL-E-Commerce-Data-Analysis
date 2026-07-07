@@ -1,0 +1,158 @@
+ /*=================================================================================================
+	                                  Customer Analysis Analysis
+==================================================================================================*/
+#Q1. Find the top 10 customers who placed the highest numbers of orders.
+select c.customer_unique_id,count(o.order_id) as order_count
+from customers_dataset c left join orders_dataset o on c.customer_id=o.customer_id
+group by c.customer_unique_id order by order_count desc limit 10;
+
+#Q2. Find the top 10 customers who spent the highest total amount.
+select c.customer_unique_id,sum(p.payment_value) as total_amount
+from customers_dataset c inner join orders_dataset o
+on c.customer_id=o.customer_id inner join order_payments_dataset p
+on o.order_id=p.order_id group by c.customer_unique_id order by
+ total_amount desc limit 10;
+
+ #Q3. Find the top 10 customers who purchased the highest number of different products.
+ Select c.customer_unique_id,count(distinct i.product_id) as diff_Product_count from
+customers_dataset c inner join orders_dataset o on c.customer_id=o.customer_id
+inner join order_items_dataset i on o.order_id=i.order_id group by
+c.customer_unique_id order by diff_product_count desc limit 10;
+
+#4.Find the total number of one time customer.
+with cust_ct as
+(select c.customer_unique_id as customer,count(o.order_id) order_count 
+from customers_dataset c inner join orders_dataset o on c.customer_id=o.customer_id
+group by c.customer_unique_id having order_count=1)
+select count(*) as one_time_cust_count from cust_ct;
+
+#5. Find the average number of orders per customer.
+select round(avg(order_count),2) from
+(select c.customer_unique_id as customer,count(o.order_id) order_count 
+from customers_dataset c inner join orders_dataset o
+on c.customer_id=o.customer_id group by c.customer_unique_id)as avg_order;
+
+
+#Q7. find the top 10 customer cities with the highest number of customers.
+select customer_city,count(distinct customer_unique_id) as customer_count
+from customers_dataset group by customer_city order by customer_count desc limit 10;
+
+#Q8. Find the top 10 customer states with the highest number of customers
+select customer_state,count(distinct customer_unique_id) as customer_count
+from customers_dataset group by customer_state order by customer_count desc limit 10;
+
+#Q9. find the total number of customers in each state.
+select customer_state,count(distinct customer_unique_id) as customer_count
+from customers_dataset group by customer_state order by customer_count;
+
+#Q10. Find the total number of customers in each city.
+select customer_city,count(distinct customer_unique_id) as customer_count
+from customers_dataset group by customer_city order by customer_count;
+
+
+ /*=================================================================================================
+	                                  Revenue Analysis
+==================================================================================================*/
+#Q1. Find the total revenue generated in each year.
+select year(o.order_purchase_date) as Order_year,sum(p.payment_value) as Revenue
+from orders_dataset o inner join order_payments_dataset p on o.order_id=p.order_id
+group by order_year order by order_year;
+
+
+#Q2. Find the total revenue generated each month.
+select date_format(o.order_purchase_date, "%Y-%m") as Rev_Month,
+sum(p.payment_value) as Total_Revenue from orders_dataset o inner join 
+order_payments_dataset p on o.order_id=p.order_id
+group by Rev_Month order by Rev_Month;
+ 
+#Q3. Find the top 10 product categories generating the highest revenue.
+ select p.product_category_name as product_category,sum(i.price) revenue
+ from order_items_dataset i inner join products_dataset p
+ on i.product_id=p.product_id group by p.product_category_name
+ order by revenue desc limit 10;
+
+#Q4. Find the top 10 states generating the highest revenue.
+select c.customer_state as state,sum(p.payment_value) as total_revenue 
+from customers_dataset c inner join orders_dataset o on c.customer_id=o.customer_id
+inner join order_payments_dataset p on o.order_id=p.order_id
+group by state order by total_revenue desc limit 10;
+
+#Q5. Find the top 10 cities generating the highest revenue.
+select c.customer_city as city,sum(p.payment_value) as total_revenue 
+from customers_dataset c inner join orders_dataset o on c.customer_id=o.customer_id
+inner join order_payments_dataset p on o.order_id=p.order_id
+group by city order by total_revenue desc limit 10;
+
+
+#Q6. Find the average revenue per order.
+select round(avg(revenue),2) as Avg_Revenue from
+(select o.order_id as orders,sum(p.payment_value) as revenue
+from orders_dataset o inner join order_payments_dataset p
+on o.order_id=p.order_id group by orders) as order_Revenue;
+
+#Q7. Find the average revenue per customer.
+select round(avg(revenue),2) as Avg_Revenue from
+(select c.customer_id as customers,sum(p.payment_value) as revenue
+from customers_dataset c inner join orders_dataset o on c.customer_id=o.customer_id
+inner join order_payments_dataset p on o.order_id=p.order_id group by c.customer_id) as cust_Revenue;
+
+#Q8. Find the payment type generating the highest revenue.
+select payment_type,sum(payment_value) as revenue from order_payments_dataset
+group by payment_type order by sum(payment_value) desc;
+
+#Q9. Find the cumulative (running) revenue by year.
+with cumulative_rev as
+(select year(o.order_purchase_date) as rev_year,sum(p.payment_value) as yearly_revenue
+from orders_dataset o inner join order_payments_dataset p on o.order_id=p.order_id
+group by year(o.order_purchase_date))
+select rev_year,yearly_revenue,sum(yearly_revenue)
+over(order by rev_year) as running_total from cumulative_rev;
+
+#Q10. Find the cumulative (running) monthly revenue for each year.
+with cumulative_Rev as
+(select year(o.order_purchase_date) as rev_year,date_format(o.order_purchase_date,"%Y-%m") as rev_month,
+sum(payment_value) as revenue from orders_dataset o inner join order_payments_dataset p
+on o.order_id=p.order_id group by rev_year,rev_month order by rev_year)
+select rev_year,rev_month,revenue,sum(revenue) over(partition by rev_year order by rev_month) running_total
+from cumulative_rev;
+
+/*=================================================================================================
+	                                  Product Analysis
+==================================================================================================*/
+
+#Q1. Find the top 10 most sold products based on quantity sold.
+select product_id,count(product_id) as product_count
+from order_items_dataset group by product_id
+order by product_count desc limit 10;
+
+#Q2. Find the top 10 least sold products based on quantity sold.
+select product_id,count(product_id) as product_count
+from order_items_dataset group by product_id
+order by product_count asc limit 10;
+
+#Q3. Find the products that were never sold even once.
+select p.product_id from products_dataset p left join
+order_items_dataset i using(product_id) where i.product_id is null;
+
+
+#Q4. Find the top 10 products generate the highest revenue.
+select product_id,sum(price) as revenue from order_items_dataset
+group by product_id order by revenue desc limit 10;
+
+#Q5. Find the average price of each product.
+select product_id,round(avg(price),2) as avg_price from
+order_items_dataset group by product_id order by avg_price desc;
+ 
+ #Q6. Find the top 10 product categories by total revenue.
+ select p.product_category_name as category ,sum(i.price) as total_revenue from 
+ products_dataset p inner join order_items_dataset i on p.product_id=i.product_id
+ group by category order by total_revenue desc limit 10;
+ 
+
+#Q7. Find the top 5 products by number of orders.
+select product_id,count(distinct order_id) as order_count from
+order_items_dataset group by product_id order by order_count desc limit 5;
+
+#Q8. Find product that appear in more than one category.
+#Q9. Find the products with the highest revenue per order(avg revenue per product).
+#Q10. Find month-wise top selling product based on quantity.
