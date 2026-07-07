@@ -153,6 +153,44 @@ order_items_dataset group by product_id order by avg_price desc;
 select product_id,count(distinct order_id) as order_count from
 order_items_dataset group by product_id order by order_count desc limit 5;
 
-#Q8. Find product that appear in more than one category.
-#Q9. Find the products with the highest revenue per order(avg revenue per product).
-#Q10. Find month-wise top selling product based on quantity.
+#Q8. Find top 5 products categories with the highest number of products.
+select product_category_name as product_category,count(product_id) as product_count
+from products_dataset group by product_category_name order by product_count desc limit 5;
+
+#Q9. Month wise top selling products (based on number of orders).
+with monthly_analysis as
+(select date_format(o.order_purchase_date," %Y-%m") as month,i.product_id,
+count(distinct i.order_id) as order_count,dense_rank() 
+over(partition by date_format(o.order_purchase_date," %Y-%m") order by count(distinct i.order_id) desc)
+as top_selling_prod from orders_dataset o inner join order_items_dataset i
+on o.order_id=i.order_id group by month,product_id)
+select month,product_id,order_count from monthly_analysis
+where top_selling_prod=1 order by month;
+
+
+#Q10. Top 5 products categories with the highest number of orders.
+select p.product_category_name as product_categroy,count(i.order_id) as order_count
+from products_dataset p inner join order_items_dataset i
+on p.product_id=i.product_id group by p.product_category_name
+order by order_count desc limit 5;
+
+
+/*=================================================================================================
+	                                  Seller Analysis
+==================================================================================================*/
+
+#Q1. Find the top 10 sellers who received the highest number of orders.
+#Q3. Find the top 10 sellers generating the highest revenue.
+#Q3. Find the sellers who never sold any product.
+#Q4. Find the average number of order received by each seller.
+#Q5. Find the month-wise-top-performing seller based on revenue.
+#Q6. Find the sellers whose average order value is above the overall average order value.
+
+
+/*=================================================================================================
+	                                  Seller Analysis
+==================================================================================================*/
+
+#wqsq to fetch totoal orders in respect to order by prcie 
+
+
