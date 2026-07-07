@@ -180,17 +180,41 @@ order by order_count desc limit 5;
 ==================================================================================================*/
 
 #Q1. Find the top 10 sellers who received the highest number of orders.
-#Q3. Find the top 10 sellers generating the highest revenue.
-#Q3. Find the sellers who never sold any product.
-#Q4. Find the average number of order received by each seller.
-#Q5. Find the month-wise-top-performing seller based on revenue.
-#Q6. Find the sellers whose average order value is above the overall average order value.
+select seller_id,count(distinct order_id) as order_count from sellers_dataset
+inner join order_items_dataset using(seller_id) group by seller_id
+order by order_count desc limit 10;
 
+#Q2. Find the top 10 sellers generating the highest revenue.
+select seller_id,sum(price) as revenue from sellers_dataset
+inner join order_items_dataset using(seller_id) group by seller_id
+order by revenue desc limit 10;
+
+#Q3. Find the sellers who never sold any product.
+select s.seller_id from sellers_dataset s left join
+order_items_dataset i using(seller_id) where i.seller_id is null;
+
+#Q4. Find the average number of order received by each seller.
+With avg_order as
+(select seller_id,count(distinct order_id) order_count from sellers_dataset
+inner join order_items_dataset using(seller_id) group by seller_id)
+select avg(order_count) as avg_orders from avg_order;
+
+
+#Q5. Find the month-wise-top-performing seller based on revenue.
+with top_seller as
+(select date_format(o.order_purchase_date,"%Y-%m") as month,i.seller_id,sum(i.price) as revenue,
+dense_rank() over(partition by date_format(o.order_purchase_date,"%Y-%m")
+order by sum(i.price)) as sell_rnk from orders_dataset o inner join
+order_items_dataset i on o.order_id=i.order_id group by month,seller_id)
+select month,seller_id,revenue from top_seller where sell_rnk=1;
+
+#Q6. Find the sellers whose average order value is above the overall average order value.
+select seller_id,round(avg(price),2) as avg_value from order_items_dataset
+group by seller_id having avg_value>( select avg(price) as overall_avg from order_items_dataset);
 
 /*=================================================================================================
-	                                  Seller Analysis
+	                                  Order Analysis
 ==================================================================================================*/
 
-#wqsq to fetch totoal orders in respect to order by prcie 
 
 

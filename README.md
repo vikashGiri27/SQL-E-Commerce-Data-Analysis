@@ -1,169 +1,94 @@
-# SQL E-Commerce Data Analysis
+# 🛒 SQL E-Commerce Data Analysis Project
 
-A comprehensive SQL data analysis project using the **Olist Brazilian E-Commerce Dataset**. This project demonstrates SQL skills ranging from database setup and single-table queries to advanced multi-table analysis using joins, aggregations, Common Table Expressions (CTEs), subqueries, and window functions to solve real-world business problems.
+A complete SQL data analysis project built using the **Brazilian Olist E-Commerce Dataset**.
 
----
+This project demonstrates real-world SQL skills including:
 
-## Table of Contents
+- Data Cleaning
+- Database Design
+- Foreign Key Relationships
+- Single Table Analysis
+- Multi-Table Business Analysis
+- Revenue Analysis
+- Customer Analysis
+- Product Analysis
+- Seller Analysis
+- Advanced SQL Queries
 
-- [About the Project](#about-the-project)
-- [Dataset Details](#dataset-details)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Database Schema](#database-schema)
-- [SQL Analysis](#sql-analysis)
-- [Key Business Insights](#key-business-insights)
-- [Technologies Used](#technologies-used)
-- [Future Work](#future-work)
-- [License](#license)
-- [Contact](#contact)
-
----
-
-# About the Project
-
-This project focuses on analyzing an e-commerce database using SQL. The dataset contains information about customers, orders, products, sellers, payments, reviews, and geolocation data from the **Olist Brazilian E-Commerce platform**.
-
-The objective is to demonstrate practical SQL skills by answering business questions through data exploration and analysis.
-
-## Goals
-
-- Design and populate a relational database.
-- Perform SQL-based business analysis.
-- Explore customer purchasing behavior.
-- Analyze sales performance and revenue.
-- Practice SQL joins, aggregations, CTEs, subqueries, and window functions.
-- Solve real-world business problems using SQL.
+The project is continuously being updated with more advanced business analysis and SQL concepts.
 
 ---
 
-# Dataset Details
+# 📌 Project Objective
 
-**Dataset:** Olist Brazilian E-Commerce Public Dataset
+The objective of this project is to transform raw e-commerce CSV datasets into a structured SQL database and perform business analysis using SQL.
 
-### Tables Included
+The project focuses on solving real business questions related to:
 
 - Customers
 - Orders
-- Order Items
-- Payments
-- Reviews
 - Products
 - Sellers
-- Geolocation
-- Product Category Translation
-
-### Data Includes
-
-- Customer information
-- Seller information
-- Product details
-- Order history
-- Payment methods
-- Customer reviews
-- Geographic locations
-- Product categories
-- Order timestamps
+- Payments
+- Reviews
+- Revenue
+- Sales Performance
 
 ---
 
-# Project Structure
+# 📂 Project Structure
 
-```text
-SQL-E-COMMERCE-DATA-ANALYSIS
+```
+SQL-ECOMMERCE-DATA-ANALYSIS
 │
-├── Combined_Analysis/
-│   └── Combined_Analysis.sql          # Advanced SQL analysis using joins, CTEs, window functions
-│
-├── Database/
-│   ├── Olist_Database_Setup.sql       # Database creation and setup
+├── Database
+│   ├── Olist_Database_Setup.sql
 │   ├── olist_customers_dataset.csv
-│   ├── olist_geolocation_dataset.csv
+│   ├── olist_orders_dataset.csv
 │   ├── olist_order_items_dataset.csv
 │   ├── olist_order_payments_dataset.csv
 │   ├── olist_order_reviews_dataset.csv
-│   ├── olist_orders_dataset.csv
 │   ├── olist_products_dataset.csv
 │   ├── olist_sellers_dataset.csv
+│   ├── olist_geolocation_dataset.csv
 │   └── product_category_name_translation.csv
 │
-├── Single_Table_Queries/
-│   └── Single_Table_Queries.sql       # Basic SQL queries on individual tables
+├── Single_Table_Queries
+│   └── Single_Table_Queries.sql
 │
-├── .env
-├── .gitignore
-└── README.md
+├── Combined_Analysis
+│   └── Combined_Analysis.sql
+│
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-# Getting Started
+# 📊 Dataset Information
 
-## Prerequisites
+Dataset Source:
 
-- MySQL 8.0+
-- MySQL Workbench (Recommended)
-- Any SQL Client
-  - DBeaver
-  - HeidiSQL
-  - phpMyAdmin
+**Olist Brazilian E-Commerce Public Dataset**
 
----
+The dataset contains information about:
 
-## Installation
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/your-username/SQL-E-COMMERCE-DATA-ANALYSIS.git
-
-cd SQL-E-COMMERCE-DATA-ANALYSIS
-```
+- Customers
+- Orders
+- Order Items
+- Payments
+- Reviews
+- Products
+- Sellers
+- Geolocation
 
 ---
 
-### 2. Create the Database
+# 🗄 Database Design
 
-Open and execute
+The database consists of multiple related tables connected using **Primary Keys** and **Foreign Keys**.
 
-```text
-Database/Olist_Database_Setup.sql
-```
-
-This script will:
-
-- Create the database
-- Create all required tables
-- Import the CSV datasets
-- Define relationships between tables
-
----
-
-### 3. Run SQL Queries
-
-Execute the SQL scripts in the following order:
-
-```text
-Single_Table_Queries/
-```
-
-Practice basic SQL operations.
-
-Then execute
-
-```text
-Combined_Analysis/
-```
-
-for advanced business analysis.
-
----
-
-# Database Schema
-
-The project consists of multiple related tables.
-
-## Main Tables
+Main Tables
 
 - Customers
 - Orders
@@ -174,127 +99,262 @@ The project consists of multiple related tables.
 - Reviews
 - Geolocation
 
-## Relationships
+---
 
-- One customer can place multiple orders.
-- One order contains multiple order items.
-- Each order item references one product.
-- Products belong to categories.
-- Sellers fulfill products.
-- Payments are associated with orders.
-- Reviews are linked to completed orders.
+# ⚙ Data Preparation
+
+Before performing analysis:
+
+- Imported all CSV datasets into MySQL.
+- Created a relational database.
+- Defined Primary Keys.
+- Created Foreign Key relationships.
+- Checked NULL values.
+- Fixed incorrect data types.
+- Converted date columns into SQL DateTime format.
+- Verified data consistency.
 
 ---
 
-# SQL Analysis
+# 📈 Analysis Performed
 
-The project demonstrates SQL concepts from beginner to advanced.
+## 1. Customer Analysis
 
-## Single Table Queries
+Examples:
+
+- Total Customers
+- Unique Customers
+- Top Customer Cities
+- Top Customer States
+- One-Time Customers
+- Average Orders per Customer
+- Highest Spending Customers
+- Customers Purchasing Maximum Products
+
+---
+
+## 2. Orders Analysis
+
+Examples:
+
+- Total Orders
+- Orders by State
+- Orders by Year
+- Orders by Month
+- Order Status Analysis
+
+---
+
+## 3. Product Analysis
+
+Examples:
+
+- Most Sold Products
+- Least Sold Products
+- Unsold Products
+- Highest Revenue Products
+- Average Product Price
+- Product Category Revenue
+- Monthly Top Selling Products
+
+---
+
+## 4. Seller Analysis *(In Progress)*
+
+Planned Analysis:
+
+- Top Sellers
+- Highest Revenue Sellers
+- Sellers with No Sales
+- Average Orders per Seller
+- Month-wise Best Seller
+- Average Order Value per Seller
+
+---
+
+## 5. Revenue Analysis
+
+Examples:
+
+- Revenue by Year
+- Revenue by Month
+- Revenue by State
+- Revenue by City
+- Revenue by Product Category
+- Running Revenue
+- Average Revenue per Customer
+- Average Revenue per Order
+
+---
+
+## 6. Payment Analysis *(Coming Soon)*
+
+Planned Analysis:
+
+- Payment Trends
+- Payment Types
+- Installment Analysis
+- Payment Success Rate
+
+---
+
+## 7. Order Analysis *(Coming Soon)*
+
+Planned Analysis:
+
+- Delivery Performance
+- Shipping Time
+- Late Deliveries
+- Order Lifecycle
+- Order Status Trends
+
+---
+
+## 8. Advanced SQL Analysis *(Coming Soon)*
+
+Topics include:
+
+- Window Functions
+- Common Table Expressions (CTEs)
+- Ranking Functions
+- Running Totals
+- Rolling Average
+- Recursive Queries
+- Business KPIs
+- Customer Segmentation
+- Cohort Analysis
+- RFM Analysis
+
+---
+
+# 🛠 SQL Concepts Used
 
 - SELECT
 - WHERE
-- ORDER BY
-- LIMIT
-- DISTINCT
-- LIKE
-- BETWEEN
-- IN
-- Aggregate Functions
-
----
-
-## Multi-Table Analysis
-
-- INNER JOIN
-- LEFT JOIN
-- RIGHT JOIN
-- Multiple Table Joins
-
----
-
-## Aggregate Analysis
-
-- COUNT()
-- SUM()
-- AVG()
-- MIN()
-- MAX()
 - GROUP BY
 - HAVING
-
----
-
-## Advanced SQL
-
-- Common Table Expressions (CTEs)
+- ORDER BY
+- LIMIT
+- Aggregate Functions
+- INNER JOIN
+- LEFT JOIN
+- CASE WHEN
 - Subqueries
-- Correlated Subqueries
-- CASE Statements
+- Common Table Expressions (CTE)
 - Window Functions
-  - ROW_NUMBER()
-  - RANK()
-  - DENSE_RANK()
-  - LAG()
-  - LEAD()
+- DENSE_RANK()
+- ROW_NUMBER()
 - Date Functions
+- Aggregate Analysis
 
 ---
 
-# Key Business Insights
+# 📌 Business Questions Solved
 
-This project answers business questions such as:
+✔ Which customers placed the highest number of orders?
 
-- Total number of customers
-- Total number of orders
-- Monthly sales trends
-- Top-selling products
-- Highest revenue-generating products
-- Best-performing sellers
-- Most popular payment methods
-- Average order value
-- Customer purchasing frequency
-- Product category performance
-- Delivery performance analysis
-- Customer review distribution
-- Geographic distribution of customers
-- Sales ranking using window functions
+✔ Which customers generated the highest revenue?
+
+✔ Which product categories generate maximum revenue?
+
+✔ Which products were never sold?
+
+✔ Which cities generate the highest revenue?
+
+✔ Which states have the most customers?
+
+✔ Which payment methods contribute the highest revenue?
+
+✔ What is the monthly revenue trend?
+
+✔ Which products are sold the most?
+
+✔ Which sellers receive the highest number of orders?
+
+Many more business questions are continuously being added.
 
 ---
 
-# Technologies Used
+# 🚀 Future Improvements
 
-- SQL
+- Complete Seller Analysis
+- Complete Order Analysis
+- Complete Payment Analysis
+- Customer Segmentation
+- RFM Analysis
+- Cohort Analysis
+- Churn Analysis
+- Sales Dashboard using Power BI
+- Tableau Dashboard
+- KPI Dashboard
+- Stored Procedures
+- SQL Views
+- Index Optimization
+- Query Performance Tuning
+
+---
+
+# 💻 Tools & Technologies
+
 - MySQL
-- MySQL Workbench
-- Olist Brazilian E-Commerce Dataset
+- SQL
+- VS Code
 - Git
 - GitHub
+- CSV Dataset
 
 ---
 
-# Future Work
+# 📷 Project Preview
 
-- Build a Power BI dashboard using the SQL database.
-- Create stored procedures and SQL functions.
-- Implement indexes for query optimization.
-- Add views for business reporting.
-- Perform customer segmentation (RFM Analysis).
-- Build sales forecasting using Python.
-- Integrate Tableau dashboards.
+```
+Database Import
+        │
+        ▼
+Data Cleaning
+        │
+        ▼
+Database Relationships
+        │
+        ▼
+Single Table Analysis
+        │
+        ▼
+Combined Business Analysis
+        │
+        ▼
+Advanced SQL Analysis
+        │
+        ▼
+Dashboard (Coming Soon)
+```
 
 ---
 
-# License
+# 🎯 Skills Demonstrated
 
-This project is distributed under the **MIT License**.
-
-See the `LICENSE` file for more information.
+- SQL
+- Relational Database Design
+- Data Cleaning
+- Data Analysis
+- Business Intelligence
+- Data Aggregation
+- Joins
+- Window Functions
+- CTEs
+- Problem Solving
+- Query Optimization
 
 ---
 
-# Contact
+# 📈 Project Status
 
-**Vikash Giri**
+🟢 Active Development
 
-For questions, suggestions, or collaboration opportunities, feel free to reach out via GitHub.
+This repository is continuously updated with new SQL analyses, advanced SQL concepts, optimization techniques, and business insights.
+
+---
+
+# ⭐ If you found this project helpful...
+
+Please consider giving the repository a ⭐ on GitHub.
