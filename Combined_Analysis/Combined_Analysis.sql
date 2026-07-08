@@ -225,10 +225,24 @@ from orders_dataset group by date_format(order_purchase_date,"%Y-%m-%d")
 order by order_count desc limit 5;
 
 #Q3. Find the percentage of order status by each order status.
+select order_status,count(*) as order_count,
+round(count(*)*100/(select count(*) from orders_dataset),2) as percentage
+from orders_dataset group by order_status;
 
 #Q4. Find the average delivery time for delivered orders.
-#Q5. Find the top 10 customers with the highest number of orders.
-#Q6. Find the month wise cancelled order count.
+select round(avg(datediff(order_delivered_customer_Date,order_purchase_date)),2)
+as avg_delivery_day from orders_Dataset where order_status='delivered';
 
+#Q5. Find the top 10 customers with the highest number of orders.
+select customer_unique_id as customers,count(order_id) as order_count from customers_dataset
+inner join orders_dataset using(customer_id) group by customer_unique_id
+order by order_count desc limit 10;
+
+#Q6. Find the month wise cancelled order count.
+select * from orders_dataset where order_status like "can%";
+select order_status,date_format(order_purchase_date,"%Y-%m") as month,
+count(order_id) order_count from orders_dataset
+group by 1,2 having order_status='canceled'
+order by month asc;
 
 
