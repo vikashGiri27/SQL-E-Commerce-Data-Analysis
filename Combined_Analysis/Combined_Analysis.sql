@@ -215,6 +215,20 @@ group by seller_id having avg_value>( select avg(price) as overall_avg from orde
 /*=================================================================================================
 	                                  Order Analysis
 ==================================================================================================*/
+#Q1. Find total orders placed each month.
+select date_format(order_purchase_date,"%Y-%m") as month,count(order_id) as order_count
+from orders_dataset group by date_format(order_purchase_date,"%Y-%m") order by month asc;
+
+#Q2. Find the top 5 days with the highest number of orders.
+select date_format(order_purchase_date,"%Y-%m-%d") as day,count(order_id) as order_count
+from orders_dataset group by date_format(order_purchase_date,"%Y-%m-%d")
+order by order_count desc limit 5;
+
+#Q3. Find the percentage of order status by each order status.
+
+#Q4. Find the average delivery time for delivered orders.
+#Q5. Find the top 10 customers with the highest number of orders.
+#Q6. Find the month wise cancelled order count.
 
 
 
