@@ -260,9 +260,8 @@ from order_payments_dataset group by payment_type
 order by total_revenue desc limit 3;
 
 #Q3. Find the average payment value for each payment type.
-select round(avg(total_payments),2) as avg_payment from
-(select payment_type,sum(payment_value) total_payments from
-order_payments_dataset group by payment_type) as payment_avg;
+select payment_type,round(avg(payment_value),0) avg_payment from
+order_payments_dataset group by payment_type;
 
 #Q4. Find the month wise total payment amount received.
 select date_format(order_purchase_date, "%Y-%m") as month,
@@ -272,3 +271,5 @@ group by date_format(order_purchase_date, "%Y-%m")
 order by month;
 
 #Q5. Find the average number of installments by payment type.
+select payment_type,round(avg(payment_installments),1) as avg_installments
+from order_payments_dataset group by payment_type;
