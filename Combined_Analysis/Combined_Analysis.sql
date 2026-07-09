@@ -246,3 +246,19 @@ group by 1,2 having order_status='canceled'
 order by month asc;
 
 
+/*=================================================================================================
+	                                  Payment Analysis
+==================================================================================================*/
+
+#Q1. Find the total value by payment type.
+select payment_type,sum(payment_value) as total_payment
+from order_payments_dataset group by payment_type;
+
+#Q2. Find the top 3 Payments type based on total revenue.
+select payment_type,sum(payment_value) as total_revenue
+from order_payments_dataset group by payment_type
+order by total_revenue desc limit 3;
+
+#Q3. Find the average payment value for each payment type.
+#Q4. Find the month wise total payment amount received.
+#Q5. Find the average number of installments by payment type.
