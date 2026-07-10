@@ -284,3 +284,17 @@ select customer_id,sum(price) as total_amount from
 customers_dataset inner join orders_dataset using(customer_id) 
 inner join order_items_dataset using(order_id) where order_status="delivered" group by
 customer_id,order_status order by total_amount desc limit 10;
+
+#Q2. Find the month-wise revenue and compare it with the previous month.
+#also show the revenue difference from the previous month.
+with rev_diff as
+(with prev_rev as
+(select date_format(order_purchase_date, '%Y-%m') as month,
+sum(price) as cur_revenue from orders_dataset inner join
+order_items_dataset using(order_id)
+group by date_format(order_purchase_date, '%Y-%m'))
+select month,cur_revenue,lag(cur_revenue) over
+(order by month) as prev_revenue from prev_rev)
+select month,cur_revenue,coalesce(prev_revenue,0),
+(cur_revenue-coalesce(prev_revenue,0))
+as revenue_difference from rev_diff;
