@@ -273,3 +273,14 @@ order by month;
 #Q5. Find the average number of installments by payment type.
 select payment_type,round(avg(payment_installments),1) as avg_installments
 from order_payments_dataset group by payment_type;
+
+select order_status from orders_Dataset;
+
+/*=================================================================================================
+	                                  Advanced Analysis
+==================================================================================================*/
+#Q1. Find the customers who spent the highest total amount on delivered orders.
+select customer_id,sum(price) as total_amount from
+customers_dataset inner join orders_dataset using(customer_id) 
+inner join order_items_dataset using(order_id) where order_status="delivered" group by
+customer_id,order_status order by total_amount desc limit 10;
